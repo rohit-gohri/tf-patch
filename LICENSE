@@ -2,6 +2,11 @@ MIT License
 
 Copyright (c) 2024 Rohit Gohri
 
+For original work from <https://github.com/yarnpkg/berry/tree/master/packages/plugin-patch>
+Original work Copyright (c) 2017 David Sheldrick
+Modified work Copyright (c) 2019 Maël Nison
+Modified work Copyright (c) 2016-present Yarn Contributors
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
