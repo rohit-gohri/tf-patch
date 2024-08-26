@@ -10,31 +10,53 @@ import {TERRAFORM_MODULES_DIR} from '../patch/index.js'
 
 async function applyModification(from: string, file: File) {
   const fileContents = await readFile(from, `utf8`)
-  const originalFileLines = fileContents.split(/\n/);
-  let fileLines = [...originalFileLines];
+  const originalFileLines = fileContents.split(/\n/)
+  let fileLines = [...originalFileLines]
+  let linesRemoved = 0
 
   for (const chunk of file.chunks) {
     for (const change of chunk.changes) {
-      const content = change.content.slice(1);
+      const content = change.content.slice(1)
+      // ln index starts from 1 rather than 0
+      const ln = ('ln' in change ? (change.ln - linesRemoved) : change.ln2) - 1;
+      const og = originalFileLines[('ln1' in change ? change.ln1 : change.ln) - 1];
+      const update = fileLines[ln];
+
       switch (change.type) {
         case 'normal': {
-          // ln index starts from 1 rather than 0
           if (
-            originalFileLines[change.ln1 - 1] !== content  ||
-            originalFileLines[change.ln1 - 1] !== fileLines[change.ln2 - 1]) {
-            throw new Error("Patch is no longer valid as original file has changed (possibly due to module upgrade). Please recreate patch by following the steps again")
+            og !== content ||
+            og !== update
+          ) {
+            throw new Error(
+              'Patch is no longer valid as original file has changed (possibly due to module upgrade). Please recreate patch by following the steps again',
+            )
           }
 
           break
         }
 
         case 'add': {
-          // ln index starts from 1 rather than 0
-          fileLines = [...fileLines.slice(0, change.ln - 1), content, ...fileLines.slice(change.ln - 1)]
+          fileLines = [
+            ...fileLines.slice(0, ln),
+            content,
+            ...fileLines.slice(ln),
+          ]
           break
         }
 
         case 'del': {
+          if (content !== fileLines[ln]) {
+            throw new Error(
+              'Patch is no longer valid as original file has changed (possibly due to module upgrade). Please recreate patch by following the steps again',
+            )
+          }
+
+          fileLines = [
+            ...fileLines.slice(0, ln),
+            ...fileLines.slice(ln + 1),
+          ]
+          linesRemoved += 1
           break
         }
 
