@@ -1,12 +1,11 @@
 import {Args, Command} from '@oclif/core'
 import * as fse from 'fs-extra'
-import { writeFile } from 'node:fs/promises'
+import {writeFile} from 'node:fs/promises'
 import path from 'node:path'
 import {dir} from 'tmp'
 
 if (process.env.TEST_CWD) {
   process.chdir(process.env.TEST_CWD)
-  console.debug(`New directory: ${process.cwd()}`)
 }
 
 export const PATCH_DATA_FILE = `.patch.json`
@@ -25,6 +24,8 @@ intended to be editable at will.`
   static flags = {}
 
   async run(): Promise<void> {
+    this.log(`[tf-patch] CWD: ${process.cwd()}`)
+
     const {args} = await this.parse(Patch)
     const {module} = args
     const moduleDir = path.join(TERRAFORM_MODULES_DIR, module)
@@ -42,13 +43,13 @@ intended to be editable at will.`
         path.join(tmpDir, PATCH_DATA_FILE),
         JSON.stringify({
           module,
-        })
+        }),
       )
-      
-      const tmpModule = path.join(tmpDir, 'module');
+
+      const tmpModule = path.join(tmpDir, 'module')
       await fse.ensureDir(tmpModule)
       await fse.copy(moduleDir, tmpModule)
-      await fse.remove(path.join(tmpModule, '.git'));
+      await fse.remove(path.join(tmpModule, '.git'))
 
       this.log(`[tf-patch] You can now edit the following folder: ${tmpModule}`)
       this.log(

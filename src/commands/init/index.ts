@@ -8,6 +8,11 @@ import parse, {File} from 'parse-diff'
 import {PATCHES_DIR} from '../commit/index.js'
 import {TERRAFORM_MODULES_DIR} from '../patch/index.js'
 
+async function isAlreadyModified(_from: string, _file: File): Promise<boolean> {
+  // TODO: TBD
+ return false
+}
+
 async function applyModification(from: string, file: File) {
   const fileContents = await readFile(from, `utf8`)
   const originalFileLines = fileContents.split(/\n/)
@@ -18,16 +23,13 @@ async function applyModification(from: string, file: File) {
     for (const change of chunk.changes) {
       const content = change.content.slice(1)
       // ln index starts from 1 rather than 0
-      const ln = ('ln' in change ? (change.ln + linesAdded) : change.ln2) - 1;
-      const og = originalFileLines[('ln1' in change ? change.ln1 : change.ln) - 1];
-      const update = fileLines[ln];
+      const ln = ('ln' in change ? change.ln + linesAdded : change.ln2) - 1
+      const og = originalFileLines[('ln1' in change ? change.ln1 : change.ln) - 1]
+      const update = fileLines[ln]
 
       switch (change.type) {
         case 'normal': {
-          if (
-            og !== content ||
-            og !== update
-          ) {
+          if (og !== content || og !== update) {
             throw new Error(
               'Patch is no longer valid as original file has changed (possibly due to module upgrade). Please recreate patch by following the steps again',
             )
@@ -54,10 +56,7 @@ async function applyModification(from: string, file: File) {
             )
           }
 
-          fileLines = [
-            ...fileLines.slice(0, ln),
-            ...fileLines.slice(ln + 1),
-          ]
+          fileLines = [...fileLines.slice(0, ln), ...fileLines.slice(ln + 1)]
           linesAdded -= 1
           break
         }
@@ -100,22 +99,45 @@ export default class Init extends Command {
         for await (const file of diff) {
           const from = file.from ? path.join(moduleDir, file.from) : undefined
           const to = file.to ? path.join(moduleDir, file.to) : undefined
+          const filePath: string = file.new ? to! : from!;
 
-          this.log(`[tf-patch] Parsed diff for file "${to || from}" in module "${module}"`)
+          this.log(`[tf-patch] Parsed diff for file "${filePath}" in module "${module}"`)
 
           switch (true) {
             case file.deleted: {
-              await fse.remove(from!)
+              if (!(await fse.exists(filePath))) {
+                this.log(`[tf-patch] File already deleted "${filePath}" in module "${module}"`)
+                break
+              }
+
+              await fse.remove(filePath)
               break
             }
 
             case file.new: {
-              await writeFile(to!, file.chunks.map((ch) => ch.content).join('\n'), {mode: file.newMode})
+              const contents = file.chunks.map((ch) => ch.content).join('\n');
+              if (await fse.exists(filePath)) {
+                const existing = await readFile(filePath, {encoding: 'utf8'})
+                if (existing === contents) {
+                  this.log(`[tf-patch] File already created "${filePath}" in module "${module}"`)
+                  break
+                }
+                else {
+                  throw new Error(`[tf-patch] Patch has conflicts with module for file "${filePath}"`)
+                }
+              }
+
+              await writeFile(filePath, contents, {mode: file.newMode})
               break
             }
 
             default: {
-              await applyModification(from!, file)
+              if ((await isAlreadyModified(filePath, file))) {
+                this.log(`[tf-patch] File already updated "${filePath}" in module "${module}"`)
+                break
+              }
+
+              await applyModification(filePath, file)
             }
           }
         }
