@@ -1,7 +1,7 @@
 {
   "name": "tf-patch",
   "description": "Patch terraform modules to fix tiny things",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "bin": "./bin/run.js",
   "main": "dist/index.js",
   "type": "module",
@@ -22,6 +22,7 @@
     "commands": "./dist/commands",
     "plugins": [
       "@oclif/plugin-help",
+      "@oclif/plugin-version",
       "@oclif/plugin-autocomplete"
     ],
     "topicSeparator": " ",
@@ -41,6 +42,7 @@
     "@oclif/core": "^4",
     "@oclif/plugin-autocomplete": "^3.2.0",
     "@oclif/plugin-help": "^6",
+    "@oclif/plugin-version": "^2.2.11",
     "fs-extra": "^11.2.0",
     "globby": "^14.0.2",
     "lodash-es": "^4.17.21",

@@ -32,6 +32,7 @@ USAGE
 * [`tf-patch help [COMMAND]`](#tf-patch-help-command)
 * [`tf-patch init`](#tf-patch-init)
 * [`tf-patch patch MODULE`](#tf-patch-patch-module)
+* [`tf-patch version`](#tf-patch-version)
 
 ## `tf-patch autocomplete [SHELL]`
 
@@ -142,4 +143,24 @@ EXAMPLES
 ```
 
 _See code: [src/commands/patch/index.ts](https://github.com/rohit-gohri/tf-patch/blob/v0.0.0/src/commands/patch/index.ts)_
+
+## `tf-patch version`
+
+```
+USAGE
+  $ tf-patch version [--json] [--verbose]
+
+FLAGS
+  --verbose  Show additional information about the CLI.
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+FLAG DESCRIPTIONS
+  --verbose  Show additional information about the CLI.
+
+    Additionally shows the architecture, node version, operating system, and versions of plugins that the CLI is using.
+```
+
+_See code: [@oclif/plugin-version](https://github.com/oclif/plugin-version/blob/v2.2.11/src/commands/version.ts)_
 <!-- commandsstop -->

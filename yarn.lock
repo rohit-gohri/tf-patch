@@ -1055,6 +1055,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@oclif/plugin-version@npm:^2.2.11":
+  version: 2.2.11
+  resolution: "@oclif/plugin-version@npm:2.2.11"
+  dependencies:
+    "@oclif/core": "npm:^4"
+    ansis: "npm:^3.3.1"
+  checksum: 10c0/3a62e3b817f182378ec3a09b1159f8a2196ba42519404d4327b4a742d70727e57cad6f0a8343f83c84944617648275e3b78b94609fa1954e1f1666b6a4965303
+  languageName: node
+  linkType: hard
+
 "@oclif/plugin-warn-if-update-available@npm:^3.1.11":
   version: 3.1.11
   resolution: "@oclif/plugin-warn-if-update-available@npm:3.1.11"
@@ -6166,6 +6176,7 @@ __metadata:
     "@oclif/core": "npm:^4"
     "@oclif/plugin-autocomplete": "npm:^3.2.0"
     "@oclif/plugin-help": "npm:^6"
+    "@oclif/plugin-version": "npm:^2.2.11"
     "@oclif/prettier-config": "npm:^0.2.1"
     "@oclif/test": "npm:^4"
     "@types/chai": "npm:^4"
