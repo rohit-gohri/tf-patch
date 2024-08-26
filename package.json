@@ -7,6 +7,7 @@
   "type": "module",
   "types": "dist/index.d.ts",
   "scripts": {
+    "dev": "./bin/dev.js",
     "build": "shx rm -rf dist && tsc -b",
     "lint": "eslint . --ext .ts",
     "postpack": "shx rm -f oclif.manifest.json",
@@ -25,8 +26,14 @@
     ],
     "topicSeparator": " ",
     "topics": {
-      "hello": {
-        "description": "Say hello to the world and others"
+      "patch": {
+        "description": "Copy terraform module so patch can be generated from changes"
+      },
+      "commit": {
+        "description": "Generate .patch file that can be committed to .patches folder"
+      },
+      "apply": {
+        "description": "Apply patches to downloaded terraform modules"
       }
     }
   },
