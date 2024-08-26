@@ -12,13 +12,13 @@ async function applyModification(from: string, file: File) {
   const fileContents = await readFile(from, `utf8`)
   const originalFileLines = fileContents.split(/\n/)
   let fileLines = [...originalFileLines]
-  let linesRemoved = 0
+  let linesAdded = 0
 
   for (const chunk of file.chunks) {
     for (const change of chunk.changes) {
       const content = change.content.slice(1)
       // ln index starts from 1 rather than 0
-      const ln = ('ln' in change ? (change.ln - linesRemoved) : change.ln2) - 1;
+      const ln = ('ln' in change ? (change.ln + linesAdded) : change.ln2) - 1;
       const og = originalFileLines[('ln1' in change ? change.ln1 : change.ln) - 1];
       const update = fileLines[ln];
 
@@ -38,15 +38,17 @@ async function applyModification(from: string, file: File) {
 
         case 'add': {
           fileLines = [
-            ...fileLines.slice(0, ln),
+            // Add change has new line number so we don't need to add/subtract linesAdded from it
+            ...fileLines.slice(0, change.ln - 1),
             content,
-            ...fileLines.slice(ln),
+            ...fileLines.slice(change.ln - 1),
           ]
+          linesAdded += 1
           break
         }
 
         case 'del': {
-          if (content !== fileLines[ln]) {
+          if (content !== update) {
             throw new Error(
               'Patch is no longer valid as original file has changed (possibly due to module upgrade). Please recreate patch by following the steps again',
             )
@@ -56,7 +58,7 @@ async function applyModification(from: string, file: File) {
             ...fileLines.slice(0, ln),
             ...fileLines.slice(ln + 1),
           ]
-          linesRemoved += 1
+          linesAdded -= 1
           break
         }
 
