@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import {execute, getLogger} from '@oclif/core'
+import {execute} from '@oclif/core'
 
-const logger = getLogger('tf-fetch')
+import {logger} from '../dist/logger.js'
 
 await execute({
   dir: import.meta.url,

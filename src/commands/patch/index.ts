@@ -4,9 +4,14 @@ import {writeFile} from 'node:fs/promises'
 import path from 'node:path'
 import {dir} from 'tmp'
 
-if (process.env.TEST_CWD) {
-  process.chdir(process.env.TEST_CWD)
+import {logger} from '../../logger.js'
+
+const cwd = process.env.TEST_CWD || process.env.INIT_CWD
+if (cwd) {
+  process.chdir(cwd)
 }
+
+logger.info(`[tf-patch] CWD: ${process.cwd()}`)
 
 export const PATCH_DATA_FILE = `.patch.json`
 export const TERRAFORM_MODULES_DIR = `.terraform/modules`
@@ -24,8 +29,6 @@ intended to be editable at will.`
   static flags = {}
 
   async run(): Promise<void> {
-    this.log(`[tf-patch] CWD: ${process.cwd()}`)
-
     const {args} = await this.parse(Patch)
     const {module} = args
     const moduleDir = path.join(TERRAFORM_MODULES_DIR, module)

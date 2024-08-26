@@ -1,9 +1,10 @@
 #!/usr/bin/env -S node --loader ts-node/esm --disable-warning=ExperimentalWarning
 
 // eslint-disable-next-line n/shebang
-import {execute, getLogger} from '@oclif/core'
+import {execute} from '@oclif/core'
 
-const logger = getLogger('tf-fetch')
+// eslint-disable-next-line n/no-unpublished-import
+import {logger} from '../src/logger.ts'
 
 await execute({
   development: true,
