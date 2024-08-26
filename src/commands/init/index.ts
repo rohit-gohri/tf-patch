@@ -10,7 +10,7 @@ import {TERRAFORM_MODULES_DIR} from '../patch/index.js'
 
 async function isAlreadyModified(_from: string, _file: File): Promise<boolean> {
   // TODO: TBD
- return false
+  return false
 }
 
 async function applyModification(from: string, file: File) {
@@ -84,6 +84,10 @@ export default class Init extends Command {
     const patches = await globby(`${PATCHES_DIR}/*.patch`, {
       onlyFiles: true,
     })
+    if (patches.length === 0) {
+      throw new Error('No terraform module patches found')
+    }
+
     await Promise.all(
       patches.map(async (patchFile) => {
         const module = path.basename(patchFile, '.patch')
@@ -99,7 +103,7 @@ export default class Init extends Command {
         for await (const file of diff) {
           const from = file.from ? path.join(moduleDir, file.from) : undefined
           const to = file.to ? path.join(moduleDir, file.to) : undefined
-          const filePath: string = file.new ? to! : from!;
+          const filePath: string = file.new ? to! : from!
 
           this.log(`[tf-patch] Parsed diff for file "${filePath}" in module "${module}"`)
 
@@ -115,14 +119,13 @@ export default class Init extends Command {
             }
 
             case file.new: {
-              const contents = file.chunks.map((ch) => ch.content).join('\n');
+              const contents = file.chunks.map((ch) => ch.content).join('\n')
               if (await fse.exists(filePath)) {
                 const existing = await readFile(filePath, {encoding: 'utf8'})
                 if (existing === contents) {
                   this.log(`[tf-patch] File already created "${filePath}" in module "${module}"`)
                   break
-                }
-                else {
+                } else {
                   throw new Error(`[tf-patch] Patch has conflicts with module for file "${filePath}"`)
                 }
               }
@@ -132,7 +135,7 @@ export default class Init extends Command {
             }
 
             default: {
-              if ((await isAlreadyModified(filePath, file))) {
+              if (await isAlreadyModified(filePath, file)) {
                 this.log(`[tf-patch] File already updated "${filePath}" in module "${module}"`)
                 break
               }

@@ -1,5 +1,13 @@
 #!/usr/bin/env node
 
-import {execute} from '@oclif/core'
+import {execute, getLogger} from '@oclif/core'
 
-await execute({dir: import.meta.url})
+const logger = getLogger('tf-fetch')
+
+await execute({
+  dir: import.meta.url,
+  loadOptions: {
+    logger,
+    root: import.meta.dirname,
+  },
+})
