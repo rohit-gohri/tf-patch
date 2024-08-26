@@ -1,7 +1,7 @@
 {
   "name": "tf-patch",
   "description": "Patch terraform modules to fix tiny things",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "bin": "./bin/run.js",
   "main": "dist/index.js",
   "type": "module",
