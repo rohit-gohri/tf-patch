@@ -42,7 +42,7 @@ intended to be editable at will.`
       throw new Error(`Folder "${moduleDir}" not found`)
     }
 
-    this.log(`Found module "${module}"`)
+    this.log(`[tf-patch] Found module "${module}"`)
 
     dir({keep: false, unsafeCleanup: true}, async (err, dirA, cleanup) => {
       if (err) {
@@ -52,7 +52,7 @@ intended to be editable at will.`
       await fse.copy(moduleDir, dirA)
       await fse.remove(path.join(dirA, '.git'))
 
-      this.log(`Diffing 2 dirs: \nA: ${dirA}\nB: ${dirB}`)
+      this.log(`[tf-patch] Diffing source module and patch dir: \nA: ${dirA}\nB: ${dirB}`)
       // Using yarn as reference - https://github.com/yarnpkg/berry/blob/7fab4f101d1b8a98691efe14696d18ce00ecd234/packages/plugin-patch/sources/patchUtils.ts#L281-L298
       const gitDiff = await spawn(
         `git`,
@@ -95,7 +95,7 @@ intended to be editable at will.`
 
       const controller = new AbortController()
       const timer = setTimeout(() => {
-        this.log('Timed out creating diff')
+        this.log('[tf-patch] Timed out creating patch')
         controller.abort()
       }, 10_000)
       const stdoutArr = await gitDiff.stdout.toArray({signal: controller.signal})
@@ -115,7 +115,7 @@ intended to be editable at will.`
       await fse.ensureDir(PATCHES_DIR)
       const patchFile = path.join(PATCHES_DIR, `${module}.patch`)
       await writeFile(patchFile, stdout)
-      this.log(`Created patch file: ${patchFile}`)
+      this.log(`[tf-patch] Created patch file: ${patchFile}`)
 
       cleanup()
     })

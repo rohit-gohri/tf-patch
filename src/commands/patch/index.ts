@@ -50,9 +50,9 @@ intended to be editable at will.`
       await fse.copy(moduleDir, tmpModule)
       await fse.remove(path.join(tmpModule, '.git'));
 
-      this.log(`You can now edit the following folder: ${tmpModule}`)
+      this.log(`[tf-patch] You can now edit the following folder: ${tmpModule}`)
       this.log(
-        `Once you are done run tf-patch commit ${tmpModule} and we will store a patchfile based on your changes.`,
+        `[tf-patch] Once you are done run "tf-patch commit ${tmpModule}" and we will store a patchfile based on your changes.`,
       )
     })
   }

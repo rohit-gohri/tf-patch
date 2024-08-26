@@ -94,7 +94,7 @@ intended to be editable at will.`
           throw new Error(`Patch found for module "${module}", which does not exist. Did you do terraform init?`)
         }
 
-        this.log(`Found patch for module "${module}"`)
+        this.log(`[tf-patch] Found patch for module "${module}"`)
         const patch = await readFile(patchFile, {encoding: 'utf8'})
         const diff = parse(patch)
 
@@ -102,7 +102,7 @@ intended to be editable at will.`
           const from = file.from ? path.join(moduleDir, file.from) : undefined
           const to = file.to ? path.join(moduleDir, file.to) : undefined
 
-          this.log(`[${module}] Parsed diff for file: "${to || from}"`)
+          this.log(`[tf-patch] Parsed diff for file "${to || from}" in module "${module}"`)
 
           switch (true) {
             case file.deleted: {
@@ -121,7 +121,7 @@ intended to be editable at will.`
           }
         }
 
-        this.log(`Update module, "${module}", with patch file: ${patchFile}`)
+        this.log(`[tf-patch] Updated module, "${module}", with patch file: ${patchFile}`)
       }),
     )
   }
