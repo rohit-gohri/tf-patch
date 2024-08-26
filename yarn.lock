@@ -5308,6 +5308,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"parse-diff@npm:^0.11.1":
+  version: 0.11.1
+  resolution: "parse-diff@npm:0.11.1"
+  checksum: 10c0/b8a488039f535e0ddaf1cfd4a13c2adc6d142f4e6263de6dc603f9762b59da89703a8f0dc8aacb7c7c66cdbdd2d075a57c63813fb74f66c9b8f5fe8ad2e89689
+  languageName: node
+  linkType: hard
+
 "parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "parse-json@npm:4.0.0"
@@ -6177,6 +6184,7 @@ __metadata:
     lodash-es: "npm:^4.17.21"
     mocha: "npm:^10"
     oclif: "npm:^4"
+    parse-diff: "npm:^0.11.1"
     shx: "npm:^0.3.3"
     tmp: "npm:^0.2.3"
     ts-node: "npm:^10"
