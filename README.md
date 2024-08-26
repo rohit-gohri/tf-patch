@@ -3,6 +3,12 @@ tf-patch
 
 Patch terraform modules to fix tiny things. Inspired by [patch-package](https://www.npmjs.com/package/patch-package) and [yarn patch](https://yarnpkg.com/cli/patch) but for terraform modules.
 
+Simply patch any terraform module using git patches:
+
+1. `npx tf-patch patch <module>` - Copy terraform module so patch can be generated from changes
+1. `npx tf-patch commit <modified-module-folder>` - Generate .patch file that can be committed to .patches folder
+1. `npx tf-patch init` - Apply patches to downloaded terraform modules
+
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/tf-patch.svg)](https://npmjs.org/package/tf-patch)
 [![Downloads/week](https://img.shields.io/npm/dw/tf-patch.svg)](https://npmjs.org/package/tf-patch)
