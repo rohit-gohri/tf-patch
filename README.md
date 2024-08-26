@@ -1,13 +1,11 @@
 tf-patch
 =================
 
-Patch terraform modules to fix tiny things
-
+Patch terraform modules to fix tiny things. Inspired by [patch-package](https://www.npmjs.com/package/patch-package) and [yarn patch](https://yarnpkg.com/cli/patch) but for terraform modules.
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/tf-patch.svg)](https://npmjs.org/package/tf-patch)
 [![Downloads/week](https://img.shields.io/npm/dw/tf-patch.svg)](https://npmjs.org/package/tf-patch)
-
 
 <!-- toc -->
 * [Usage](#usage)
@@ -30,7 +28,9 @@ USAGE
 # Commands
 <!-- commands -->
 * [`tf-patch autocomplete [SHELL]`](#tf-patch-autocomplete-shell)
+* [`tf-patch commit FOLDER`](#tf-patch-commit-folder)
 * [`tf-patch help [COMMAND]`](#tf-patch-help-command)
+* [`tf-patch init`](#tf-patch-init)
 * [`tf-patch patch MODULE`](#tf-patch-patch-module)
 
 ## `tf-patch autocomplete [SHELL]`
@@ -64,6 +64,27 @@ EXAMPLES
 
 _See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v3.2.0/src/commands/autocomplete/index.ts)_
 
+## `tf-patch commit FOLDER`
+
+This command will generate a git diff of tmp module with changes and the original terraform module and save it to be committed in the repo
+
+```
+USAGE
+  $ tf-patch commit FOLDER
+
+ARGUMENTS
+  FOLDER  Folder with changed files
+
+DESCRIPTION
+  This command will generate a git diff of tmp module with changes and the original terraform module and save it to be
+  committed in the repo
+
+EXAMPLES
+  $ tf-patch commit /var/folders/tmp-10011-DygKbYjnYckl/module
+```
+
+_See code: [src/commands/commit/index.ts](https://github.com/rohit-gohri/terraform-patch/blob/v0.0.0/src/commands/commit/index.ts)_
+
 ## `tf-patch help [COMMAND]`
 
 Display help for tf-patch.
@@ -83,6 +104,23 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.8/src/commands/help.ts)_
+
+## `tf-patch init`
+
+This command will apply any patches found in the .patches directory to the corresponding terraform modules
+
+```
+USAGE
+  $ tf-patch init
+
+DESCRIPTION
+  This command will apply any patches found in the .patches directory to the corresponding terraform modules
+
+EXAMPLES
+  $ tf-patch init
+```
+
+_See code: [src/commands/init/index.ts](https://github.com/rohit-gohri/terraform-patch/blob/v0.0.0/src/commands/init/index.ts)_
 
 ## `tf-patch patch MODULE`
 

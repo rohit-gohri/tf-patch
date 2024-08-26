@@ -72,11 +72,10 @@ async function applyModification(from: string, file: File) {
   await writeFile(from, fileLines.join('\n'))
 }
 
-export default class Apply extends Command {
+export default class Init extends Command {
   static args = {}
 
-  static description = `This command will cause a package to be extracted in a temporary directory
-intended to be editable at will.`
+  static description = `This command will apply any patches found in the .patches directory to the corresponding terraform modules`
 
   static examples = [`<%= config.bin %> <%= command.id %>`]
 

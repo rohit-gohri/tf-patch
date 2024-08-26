@@ -32,7 +32,7 @@
       "commit": {
         "description": "Generate .patch file that can be committed to .patches folder"
       },
-      "apply": {
+      "init": {
         "description": "Apply patches to downloaded terraform modules"
       }
     }
@@ -80,6 +80,11 @@
   "homepage": "https://github.com/rohit-gohri/terraform-patch",
   "license": "MIT",
   "keywords": [
+    "terraform",
+    "patch-package",
+    "tf-modules",
+    "patch-modules",
+    "cli",
     "oclif"
   ],
   "repository": "rohit-gohri/terraform-patch",

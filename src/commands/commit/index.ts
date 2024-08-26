@@ -18,10 +18,9 @@ export default class Commit extends Command {
     folder: Args.string({description: 'Folder with changed files', required: true}),
   }
 
-  static description = `This command will cause a package to be extracted in a temporary directory
-intended to be editable at will.`
+  static description = `This command will generate a git diff of tmp module with changes and the original terraform module and save it to be committed in the repo`
 
-  static examples = [`<%= config.bin %> <%= command.id %> gke-cluster`]
+  static examples = [`<%= config.bin %> <%= command.id %> /var/folders/tmp-10011-DygKbYjnYckl/module`]
 
   static flags = {}
 
@@ -109,13 +108,14 @@ intended to be editable at will.`
         .replace(new RegExp(_.escapeRegExp(`${dirB}/`), `g`), ``)
 
       if (!stdout.trim()) {
-        throw new Error(`No changed detected in module "${module}"`)
+        throw new Error(`No changes detected in module "${module}"`)
       }
 
       await fse.ensureDir(PATCHES_DIR)
       const patchFile = path.join(PATCHES_DIR, `${module}.patch`)
       await writeFile(patchFile, stdout)
       this.log(`[tf-patch] Created patch file: ${patchFile}`)
+      this.log(`[tf-patch] Now you can apply the patches after "terraform init" by running "tf-patch init"`)
 
       cleanup()
     })
