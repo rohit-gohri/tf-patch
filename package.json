@@ -76,8 +76,8 @@
     "/oclif.manifest.json"
   ],
   "author": "Rohit Gohri @rohit-gohri",
-  "bugs": "https://github.com/rohit-gohri/terraform-patch/issues",
-  "homepage": "https://github.com/rohit-gohri/terraform-patch",
+  "bugs": "https://github.com/rohit-gohri/tf-patch/issues",
+  "homepage": "https://github.com/rohit-gohri/tf-patch",
   "license": "MIT",
   "keywords": [
     "terraform",
@@ -87,6 +87,9 @@
     "cli",
     "oclif"
   ],
-  "repository": "rohit-gohri/terraform-patch",
+  "repository": {
+    "url": "https://github.com/rohit-gohri/tf-patch.git",
+    "type": "git"
+  },
   "packageManager": "yarn@4.4.0"
 }

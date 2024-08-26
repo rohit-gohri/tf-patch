@@ -83,7 +83,7 @@ EXAMPLES
   $ tf-patch commit /var/folders/tmp-10011-DygKbYjnYckl/module
 ```
 
-_See code: [src/commands/commit/index.ts](https://github.com/rohit-gohri/terraform-patch/blob/v0.0.0/src/commands/commit/index.ts)_
+_See code: [src/commands/commit/index.ts](https://github.com/rohit-gohri/tf-patch/blob/v0.0.0/src/commands/commit/index.ts)_
 
 ## `tf-patch help [COMMAND]`
 
@@ -120,7 +120,7 @@ EXAMPLES
   $ tf-patch init
 ```
 
-_See code: [src/commands/init/index.ts](https://github.com/rohit-gohri/terraform-patch/blob/v0.0.0/src/commands/init/index.ts)_
+_See code: [src/commands/init/index.ts](https://github.com/rohit-gohri/tf-patch/blob/v0.0.0/src/commands/init/index.ts)_
 
 ## `tf-patch patch MODULE`
 
@@ -141,5 +141,5 @@ EXAMPLES
   $ tf-patch patch gke-cluster
 ```
 
-_See code: [src/commands/patch/index.ts](https://github.com/rohit-gohri/terraform-patch/blob/v0.0.0/src/commands/patch/index.ts)_
+_See code: [src/commands/patch/index.ts](https://github.com/rohit-gohri/tf-patch/blob/v0.0.0/src/commands/patch/index.ts)_
 <!-- commandsstop -->
