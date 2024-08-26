@@ -4,9 +4,9 @@ import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import {dir} from 'tmp'
 
-if (process.env.CWD) {
-  process.chdir(process.env.CWD)
-  console.log(`New directory: ${process.cwd()}`)
+if (process.env.TEST_CWD) {
+  process.chdir(process.env.TEST_CWD)
+  console.debug(`New directory: ${process.cwd()}`)
 }
 
 export const PATCH_DATA_FILE = `.patch.json`

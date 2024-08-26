@@ -9,11 +9,6 @@ import {dir} from 'tmp'
 
 import {PATCH_DATA_FILE, TERRAFORM_MODULES_DIR} from '../patch/index.js'
 
-if (process.env.CWD) {
-  process.chdir(process.env.CWD)
-  console.log(`New directory: ${process.cwd()}`)
-}
-
 export const PATCHES_DIR = `.patches`
 
 export const normalizePath = (p: string) => (p.startsWith(`/`) ? p.slice(1) : p)
@@ -112,6 +107,10 @@ intended to be editable at will.`
         .replace(new RegExp(`(a|b)${_.escapeRegExp(`/${normalizePath(dirB)}/`)}`, `g`), `$1/`)
         .replace(new RegExp(_.escapeRegExp(`${dirA}/`), `g`), ``)
         .replace(new RegExp(_.escapeRegExp(`${dirB}/`), `g`), ``)
+
+      if (!stdout.trim()) {
+        throw new Error(`No changed detected in module "${module}"`)
+      }
 
       await fse.ensureDir(PATCHES_DIR)
       const patchFile = path.join(PATCHES_DIR, `${module}.patch`)
