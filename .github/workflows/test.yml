@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
       - run: |
-           npm install -g corepack
+           npm install -g corepack --force
            corepack enable
       - run: yarn
       - run: yarn build
