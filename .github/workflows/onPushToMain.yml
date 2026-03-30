@@ -11,6 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+      - run: |
+           npm install -g corepack --force
+           corepack enable
       - name: Check if version already exists
         id: version-check
         run: |

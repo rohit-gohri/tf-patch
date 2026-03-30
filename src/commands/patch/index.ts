@@ -37,27 +37,35 @@ intended to be editable at will.`
       throw new Error(`Module "${module}" not found in terraform modules directory`)
     }
 
-    dir(async (err, tmpDir) => {
-      if (err) {
-        throw err
-      }
+    await new Promise<void>((resolve, reject) => {
+      dir(async (err, tmpDir) => {
+        if (err) {
+          reject(err)
+          return
+        }
 
-      await writeFile(
-        path.join(tmpDir, PATCH_DATA_FILE),
-        JSON.stringify({
-          module,
-        }),
-      )
+        try {
+          await writeFile(
+            path.join(tmpDir, PATCH_DATA_FILE),
+            JSON.stringify({
+              module,
+            }),
+          )
 
-      const tmpModule = path.join(tmpDir, 'module')
-      await fse.ensureDir(tmpModule)
-      await fse.copy(moduleDir, tmpModule)
-      await fse.remove(path.join(tmpModule, '.git'))
+          const tmpModule = path.join(tmpDir, 'module')
+          await fse.ensureDir(tmpModule)
+          await fse.copy(moduleDir, tmpModule)
+          await fse.remove(path.join(tmpModule, '.git'))
 
-      this.log(`[tf-patch] You can now edit the following folder: ${tmpModule}`)
-      this.log(
-        `[tf-patch] Once you are done run "tf-patch commit ${tmpModule}" and we will store a patchfile based on your changes.`,
-      )
+          this.log(`[tf-patch] You can now edit the following folder: ${tmpModule}`)
+          this.log(
+            `[tf-patch] Once you are done run "tf-patch commit ${tmpModule}" and we will store a patchfile based on your changes.`,
+          )
+          resolve()
+        } catch (error) {
+          reject(error)
+        }
+      })
     })
   }
 }
