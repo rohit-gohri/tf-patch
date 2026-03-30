@@ -18,6 +18,7 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           cache: yarn
+      - run: corepack enable
       - run: yarn
       - run: yarn build
       - run: yarn test
