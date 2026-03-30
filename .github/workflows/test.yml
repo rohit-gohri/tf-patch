@@ -17,7 +17,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
-          cache: yarn
+      - run: |
+           npm install -g corepack --force
+           corepack enable
       - run: yarn
       - run: yarn build
       - run: yarn test
