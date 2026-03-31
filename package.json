@@ -93,5 +93,8 @@
     "url": "https://github.com/rohit-gohri/tf-patch.git",
     "type": "git"
   },
-  "packageManager": "yarn@4.4.0"
+  "packageManager": "yarn@4.4.0",
+  "resolutions": {
+    "serialize-javascript": ">=7.0.3"
+  }
 }
